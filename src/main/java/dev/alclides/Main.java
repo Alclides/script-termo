@@ -8,19 +8,20 @@ import org.openqa.selenium.interactions.Actions;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.text.NumberFormat;
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 
-import static dev.alclides.Filtrador.getAleatorio;
+import static dev.alclides.Filtrador.*;
+import static dev.alclides.ListarPalavrasParaList.*;
+import static dev.alclides.MotorTermo.iniciar;
 
 //TIP Para <b>executar</b> o código, pressione <shortcut actionId="Run"/> ou
 // clique no ícone <icon src="AllIcons.Actions.Execute"/> no gutter.
 public class Main {
     public static void main(String[] args) throws InterruptedException, IOException {
-
-        File arquivo = new File("palavras_5_letras.txt");
-
-       List<String> palavras = Files.readAllLines(arquivo.toPath());
+        List<String> palavras = palavrasList();
 
         WebDriver driver = new ChromeDriver();
 
@@ -36,34 +37,7 @@ public class Main {
 
         Actions actions = new Actions(driver);
 
-        actions.sendKeys(getAleatorio(palavras)).perform();
-        actions.sendKeys(Keys.ENTER).perform();
-        Thread.sleep(2000);
-
-        Validator palavra1 = new Validator();
-        palavra1.isValid(driver,0);
-
-        Thread.sleep(2000);
-
-        actions.sendKeys("Jogos").perform();
-        actions.sendKeys(Keys.ENTER).perform();
-
-        Thread.sleep(2000);
-
-
-        Validator palavra2 = new Validator();
-        palavra2.isValid(driver,1);
-
-
-
-
-
-
-
-
-
-
-
+        iniciar(actions, driver, palavras);
 
     }
 }
