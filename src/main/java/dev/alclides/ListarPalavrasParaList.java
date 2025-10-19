@@ -6,12 +6,17 @@ import java.nio.file.Files;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ListarPalavrasParaList {
 
     public static List<String> palavrasList() throws IOException {
         File arquivo = new File("palavras_sem_acentos.txt");
-        List<String> palavras = Files.readAllLines(arquivo.toPath());
+        List<String> palavras = Files.lines(arquivo.toPath())
+                .map(String::trim)
+                .filter(s -> s.isEmpty())
+                .distinct()
+                .collect(Collectors.toList());
         return palavras;
 
     }

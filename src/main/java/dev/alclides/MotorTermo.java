@@ -28,6 +28,7 @@ public class MotorTermo {
             orquestrarPalavrasErradas(olhaIncorreta, palavras);
             orquestrarPalavrasPosicaoErrada(olhaAmarela, palavras);
             orquestrarPalavrasCertas(olha, palavras);
+            System.out.println(palavras);
             Thread.sleep(2000);
 
 
