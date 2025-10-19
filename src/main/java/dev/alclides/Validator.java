@@ -2,11 +2,12 @@ package dev.alclides;
 
 import org.openqa.selenium.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Validator {
 
-    public static boolean isValid(WebDriver driver, Integer linha) {
+    public static List<String> isValid(WebDriver driver, Integer linha) {
 
         WebElement board = driver.findElement(By.cssSelector("wc-board"));
         SearchContext boardShadow = (SearchContext) ((JavascriptExecutor) driver)
@@ -23,15 +24,17 @@ public class Validator {
         List<WebElement> letras = rowShadow.findElements(By.cssSelector("div.letter"));
 
         // 🔹 6. Lê o resultado de cada letra
-
+        List<String> itens = new ArrayList<>();
         for (WebElement letra : letras) {
             String ariaLabel = letra.getAttribute("aria-label");
+            itens.add(ariaLabel);
             System.out.println("→ " + ariaLabel);
-            System.out.println("------------------------------------------------");
+
         }
+        System.out.println("------------------------------------------------");
         System.out.println("Resultado da linha: " + linha);
 
-        return true;
+        return itens;
 
     }
 

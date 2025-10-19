@@ -1,5 +1,6 @@
 package dev.alclides;
 
+import net.bytebuddy.utility.RandomString;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -10,6 +11,8 @@ import java.nio.file.Files;
 import java.time.Duration;
 import java.util.List;
 
+import static dev.alclides.Filtrador.getAleatorio;
+
 //TIP Para <b>executar</b> o código, pressione <shortcut actionId="Run"/> ou
 // clique no ícone <icon src="AllIcons.Actions.Execute"/> no gutter.
 public class Main {
@@ -18,14 +21,6 @@ public class Main {
         File arquivo = new File("palavras_5_letras.txt");
 
        List<String> palavras = Files.readAllLines(arquivo.toPath());
-
-
-       for(String palavra : palavras) {
-           if(palavra.contains("r")) {
-               System.out.println(palavra);
-           };
-       }
-
 
         WebDriver driver = new ChromeDriver();
 
@@ -41,7 +36,7 @@ public class Main {
 
         Actions actions = new Actions(driver);
 
-        actions.sendKeys("Cafes").perform();
+        actions.sendKeys(getAleatorio(palavras)).perform();
         actions.sendKeys(Keys.ENTER).perform();
         Thread.sleep(2000);
 

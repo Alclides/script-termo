@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class Filtrador {
@@ -31,6 +32,12 @@ public class Filtrador {
 
     public void tornarArray(Path entrada) throws IOException {
         List<String> palavras = Files.readAllLines(entrada);
+    }
+
+
+    public static <T> T getAleatorio(List<T> lista) {
+        int index = ThreadLocalRandom.current().nextInt(lista.size());
+        return lista.get(index);
     }
 
 
