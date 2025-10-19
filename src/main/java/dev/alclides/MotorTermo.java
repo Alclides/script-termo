@@ -25,13 +25,14 @@ public class MotorTermo {
             Map olha = filtrarLetrasCertas(ocorrencia0);
             Map olhaIncorreta = filtrarLetrasErradas(ocorrencia0);
             Map olhaAmarela = filtrarLetrasAmarelas(ocorrencia0);
-            orquestrarPalavrasErradas(olhaIncorreta, palavras);
+
             orquestrarPalavrasPosicaoErrada(olhaAmarela, palavras);
             orquestrarPalavrasCertas(olha, palavras);
-            System.out.println(palavras);
+            orquestrarPalavrasErradas(olhaIncorreta, olha, olhaAmarela, palavras);
+            System.out.println("QTD de palavras após a " + i + " linha: " + palavras.size());
+            System.out.println("------------------------------------------------------------------------------------------------------------------------------");
             Thread.sleep(2000);
 
-
-    }
+        }
     }
 }

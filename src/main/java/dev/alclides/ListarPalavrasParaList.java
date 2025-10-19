@@ -3,9 +3,7 @@ package dev.alclides;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ListarPalavrasParaList {
@@ -14,7 +12,7 @@ public class ListarPalavrasParaList {
         File arquivo = new File("palavras_sem_acentos.txt");
         List<String> palavras = Files.lines(arquivo.toPath())
                 .map(String::trim)
-                .filter(s -> s.isEmpty())
+                .filter(s -> !s.isEmpty())
                 .distinct()
                 .collect(Collectors.toList());
         return palavras;
@@ -35,17 +33,32 @@ public class ListarPalavrasParaList {
 
     }
 
-    public static void orquestrarPalavrasErradas(Map palavrasErradas, List<String> palavras) throws IOException {
+    public static void orquestrarPalavrasErradas(Map palavrasErradas, Map palavrasCertas, Map palavrasAmarelas, List<String> palavras) throws IOException {
+        Set<String> letrasPresentes = new HashSet<>();
+
+        for (Object valor : palavrasCertas.values()) {
+            if (valor != null) {
+                letrasPresentes.add(((String) valor).toLowerCase());
+            }
+        }
+
+        for (Object valor : palavrasAmarelas.values()) {
+            if (valor != null) {
+                letrasPresentes.add(((String) valor).toLowerCase());
+            }
+        }
+
         for (int i = 0; i < 5; i++) {
-            final int indice = i;
-            if (palavrasErradas.get(indice) == null) {
+            if (palavrasErradas.get(i) == null) {
                 continue;
             }
-            String letraErrada = (String) palavrasErradas.get(indice);
-            // Remove apenas palavras que têm a letra errada NA POSIÇÃO ESPECÍFICA
-            palavras.removeIf(p -> p.toLowerCase().contains(letraErrada.toLowerCase()));
+            String letraErrada = ((String) palavrasErradas.get(i)).toLowerCase();
 
+            if (!letrasPresentes.contains(letraErrada)) {
+                palavras.removeIf(p -> p.toLowerCase().contains(letraErrada));
+            }
         }
+
     }
 
     public static void orquestrarPalavrasPosicaoErrada(Map palavrasAmarelas, List<String> palavras) {
@@ -55,9 +68,12 @@ public class ListarPalavrasParaList {
             if (palavrasAmarelas.get(indice) == null) {
                 continue;
             }
-            String letraCorreta = (String) palavrasAmarelas.get(indice);
-            palavras.removeIf(p -> p.length() <= indice ||
-                    String.valueOf(p.charAt(indice)).equalsIgnoreCase(letraCorreta));
+            String letraAmarela = (String) palavrasAmarelas.get(indice);
+            palavras.removeIf(p ->
+                    !p.toLowerCase().contains(letraAmarela.toLowerCase()) || // Não contém a letra
+                            (p.length() > indice && String.valueOf(p.charAt(indice)).equalsIgnoreCase(letraAmarela)) // Ou tem na posição errada
+            );
+
 
 
         }

@@ -28,10 +28,8 @@ public class Validator {
         for (WebElement letra : letras) {
             String ariaLabel = letra.getAttribute("aria-label");
             itens.add(ariaLabel);
-            System.out.println("→ " + ariaLabel);
 
         }
-        System.out.println("------------------------------------------------");
         System.out.println("Resultado da linha: " + linha);
 
         return itens;

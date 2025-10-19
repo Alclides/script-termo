@@ -3,6 +3,7 @@ package dev.alclides;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.Normalizer;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -53,7 +54,10 @@ public class Filtrador {
                 int inicio = palavrasLinha.get(i).indexOf('"') + 1;
                 int fim = palavrasLinha.get(i).lastIndexOf('"');
                 String resultado = palavrasLinha.get(i).substring(inicio, fim);
-                letrasCorretas.put(i, resultado);
+                String resultadoNormali = Normalizer.normalize(resultado, Normalizer.Form.NFD)
+                        .replaceAll("\\p{M}", ""
+                        );
+                letrasCorretas.put(i, resultadoNormali);
 
 
             }
@@ -72,7 +76,10 @@ public class Filtrador {
                 int inicio = palavrasLinha.get(i).indexOf('"') + 1;
                 int fim = palavrasLinha.get(i).lastIndexOf('"');
                 String resultado = palavrasLinha.get(i).substring(inicio, fim);
-                letrasErradas.put(i, resultado);
+                String resultadoNormali = Normalizer.normalize(resultado, Normalizer.Form.NFD)
+                        .replaceAll("\\p{M}", ""
+                        );;
+                letrasErradas.put(i, resultadoNormali);
 
 
             }
@@ -89,11 +96,14 @@ public class Filtrador {
         		int inicio = palavrasLinha.get(i).indexOf('"') + 1;
         		int fim = palavrasLinha.get(i).lastIndexOf('"');
         		String resultado = palavrasLinha.get(i).substring(inicio, fim);
-        		letrasAmarelas.put(i, resultado);
+                String resultadoNormali = Normalizer.normalize(resultado, Normalizer.Form.NFD)
+                        .replaceAll("\\p{M}", ""
+                        );;
+        		letrasAmarelas.put(i, resultadoNormali);
 
         	}
         }
-        System.out.println("Amarelas: " + letrasAmarelas);
+        System.out.println("Posição errada: " + letrasAmarelas);
         return letrasAmarelas;
     }
 }
